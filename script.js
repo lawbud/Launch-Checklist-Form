@@ -26,8 +26,15 @@
 
          if (pilotName.value === "" || copilotName.value === "" 
             || fuelLevel.value === "" || cargoMass.value === "" ) {
-            alert("All fields are required!");
+                alert("All fields are required!");
+                return;
          }
+         if (!isNaN(pilotName.value) || !isNaN(copilotName.value)
+         || isNaN(fuelLevel.value)  || isNaN(cargoMass.value)) {
+            alert("Please enter vaild data");
+            return;
+      }
+
          let pilotStatus = `Pilot: ${pilotName.value}`
          document.getElementById("pilotStatus").textContent = pilotStatus
          let copilotStatus = `Co-pilot: ${copilotName.value}`
@@ -35,13 +42,29 @@
          document.getElementById("launchStatus").style.color = "green";
          document.getElementById("launchStatus").textContent = "Shuttle ready for launch"
          
-         if (fuelLevel.value < 10000) {
+         if(fuelLevel.value < 10000 && cargoMass.value > 10000) { 
+            document.getElementById("launchStatus").textContent = "Shuttle Not ready for launch"
+            document.getElementById("launchStatus").style.color = "red";
+            document.getElementById("faultyItems").style.visibility = "visible"
+            document.getElementById("fuelStatus").textContent = "Fuel to low"
+            document.getElementById("cargoStatus").textContent = "Cargo to High"
+         }else if (fuelLevel.value < 10000) {
             document.getElementById("faultyItems").style.visibility = "visible"
             document.getElementById("launchStatus").style.color = "red";
             document.getElementById("launchStatus").textContent = "Shuttle not ready for launch"
-            document.querySelector("body").style.backgroundColor = "green"
-         }
+            document.getElementById("cargoStatus").textContent = "Cargo mass low enough for launch"
+            document.getElementById("fuelStatus").textContent = "Fuel to low"
          
+         }else if (cargoMass.value > 10000) {
+            document.getElementById("faultyItems").style.visibility = "visible"
+            document.getElementById("launchStatus").style.color = "red";
+            document.getElementById("launchStatus").textContent = "Shuttle not ready for launch"
+            document.getElementById("fuelStatus").textContent = "Fuel level high enough for launch"
+            document.getElementById("cargoStatus").textContent = "Cargo to High"
 
+         }else {
+            document.getElementById("launchStatus").textContent = "Shuttle ready for launch" 
+            document.getElementById("faultyItems").style.visibility = "hidden"
+            }  
       });
       });
